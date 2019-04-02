@@ -65,4 +65,26 @@ public class SimpleListTest {
 			assertTrue(i % 2 == 0);
 		}
 	}
+
+	@Test
+	void anotherTestFilterLambda(){
+		SimpleListImpl result = (SimpleListImpl) testList.filter(o -> ((int)o) < 5);
+		for(Object o : result){
+			int i = (int)o;
+			assertTrue(i < 5);
+		}
+	}
+
+	@Test
+	void testDrittesElement(){
+		SimpleListImpl result = (SimpleListImpl) testList.filter(new SimpleFilter() {
+			int count = 1;
+			@Override
+			public boolean include(Object item) {
+				return count++ % 3 == 0;
+			}
+		});
+
+
+	}
 }
