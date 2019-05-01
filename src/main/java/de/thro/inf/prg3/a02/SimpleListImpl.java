@@ -44,7 +44,24 @@ public class SimpleListImpl implements SimpleList, Iterable {
 
     @Override
     public java.util.Iterator iterator() {
-        return new Iterator();
+        return new java.util.Iterator() {
+            private Element cursor = SimpleListImpl.this.head;
+
+            @Override
+            public boolean hasNext() {
+                return cursor != null;
+            }
+
+            @Override
+            public Object next() {
+                if(this.hasNext()) {
+                    Object current = cursor.item;
+                    cursor = cursor.next;
+                    return current;
+                }
+                throw new NoSuchElementException();
+            }
+        };
     }
 
     private static class Element {
@@ -53,30 +70,6 @@ public class SimpleListImpl implements SimpleList, Iterable {
 
         Element(Object item) {
             this.item = item;
-        }
-    }
-
-    class Iterator implements java.util.Iterator {
-
-        private Element cursor;
-
-        public Iterator() {
-            cursor = SimpleListImpl.this.head;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return cursor != null;
-        }
-
-        @Override
-        public Object next() {
-            if(this.hasNext()) {
-                Object current = cursor.item;
-                cursor = cursor.next;
-                return current;
-            }
-            throw new NoSuchElementException();
         }
     }
 }
